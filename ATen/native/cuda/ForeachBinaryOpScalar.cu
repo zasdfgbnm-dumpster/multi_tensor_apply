@@ -31,7 +31,7 @@ std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
 int main() {
     TensorList tensors = {at::native::ones(3)};
     Scalar scalar = 10.0f;
-    foreach_binary_op<std::multiplies>(tensors, scalar);
+    auto ret = foreach_binary_op<std::multiplies>(tensors, scalar);
     C10_CUDA_KERNEL_LAUNCH_CHECK();
-    std::cout << tensors[0] << std::endl;
+    std::cout << ret[0] << std::endl;
 }
