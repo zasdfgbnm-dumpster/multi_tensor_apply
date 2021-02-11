@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ATen/ATen.h>
+
 namespace {
 
 void check_foreach_api_restrictions(TensorList tensors) {
