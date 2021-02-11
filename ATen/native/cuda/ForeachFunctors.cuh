@@ -1,12 +1,9 @@
-#include <ATen/native/ForeachUtils.h>
 #include <ATen/native/cuda/MultiTensorApply.cuh>
 
 namespace {
 
 // For FP16 or BFloat16 inputs, ops should perform internal math in FP32.
 template<typename scalar_t> struct get_opmath_t { using opmath_t = scalar_t; };
-template<> struct get_opmath_t<at::Half> { using opmath_t = float; };
-template<> struct get_opmath_t<at::BFloat16> { using opmath_t = float; };
 
 // Initializes args and checks if all args are aligned
 template<int depth, typename T>
