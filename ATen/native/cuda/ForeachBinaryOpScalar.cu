@@ -47,15 +47,6 @@ void foreach_binary_op_(TensorList tensors, Scalar scalar) {
 }
 
 #define FOREACH_BINARY_OP_SCALAR(NAME, OP)                                                          \
-void foreach_tensor_##NAME##_scalar_kernel_cuda_(TensorList tensors, Scalar scalar) {               \
-    check_foreach_api_restrictions(tensors);                                                        \
-    if (!can_use_fast_route(tensors, scalar)) {                                                     \
-        return at::native::foreach_tensor_##NAME##_scalar_kernel_slow_(tensors, scalar);            \
-    }                                                                                               \
-                                                                                                    \
-    foreach_binary_op_<OP>(tensors, scalar);                                                        \
-}                                                                                                   \
-                                                                                                    \
 std::vector<Tensor> foreach_tensor_##NAME##_scalar_kernel_cuda(TensorList tensors, Scalar scalar) { \
     check_foreach_api_restrictions(tensors);                                                        \
     if (!can_use_fast_route(tensors, scalar)) {                                                     \
@@ -65,9 +56,6 @@ std::vector<Tensor> foreach_tensor_##NAME##_scalar_kernel_cuda(TensorList tensor
     return foreach_binary_op<OP>(tensors, scalar);                                                  \
 }
 
-FOREACH_BINARY_OP_SCALAR(add, std::plus);
-FOREACH_BINARY_OP_SCALAR(sub, std::minus);
 FOREACH_BINARY_OP_SCALAR(mul, std::multiplies);
-FOREACH_BINARY_OP_SCALAR(div, std::divides);
 
 }} // namespace at::native
