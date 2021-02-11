@@ -3,6 +3,7 @@
 #include <c10/macros/Macros.h>
 #include <vector>
 #include <functional>
+#include <cuda_runtime.h>
 
 struct Scalar {
     float value;
@@ -44,3 +45,51 @@ using ArrayRef = ::ArrayRef<T>;
 
 #define TORCH_CHECK(...)
 #define C10_CUDA_KERNEL_LAUNCH_CHECK(...)
+
+
+namespace at { namespace native {
+
+Tensor arange(int size) {
+    using T = float;
+    T *buf = new T[size];
+    for (int64_t i = 0; i < size; i++) {
+        buf[i] = T(i);
+    }
+    T *ret;
+    int64_t size_ = size * sizeof(T);
+    cudaMalloc(&ret, size_);
+    cudaMemcpy(ret, buf, size_, cudaMemcpyHostToDevice);
+    cudaDeviceSynchronize();
+    delete [] buf;
+    // who cares about cudaFree :P LOL
+    return Tensor {size, ret};
+}
+
+Tensor zeros(int size) {
+    using T = float;
+    T *buf = new T[size];
+    for (int64_t i = 0; i < size; i++) {
+        buf[i] = 0;
+    }
+    T *ret;
+    int64_t size_ = size * sizeof(T);
+    cudaMalloc(&ret, size_);
+    cudaMemcpy(ret, buf, size_, cudaMemcpyHostToDevice);
+    cudaDeviceSynchronize();
+    delete [] buf;
+    // who cares about cudaFree :P LOL
+    return Tensor {size, ret};
+}
+
+Tensor empty_like(Tensor t) {
+    using T = float;
+    int size = t.n;
+    T *ret;
+    int64_t size_ = size * sizeof(T);
+    cudaMalloc(&ret, size_);
+    cudaDeviceSynchronize();
+    // who cares about cudaFree :P LOL
+    return Tensor {size, ret};
+}
+
+}}
