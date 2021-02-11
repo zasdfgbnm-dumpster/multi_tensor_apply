@@ -31,5 +31,5 @@ std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
 int main() {
     TensorList tensors;
     Scalar scalar = 10.0f;                                                                                       \
-    return foreach_binary_op<std::multiplies>(tensors, scalar);                                                  \
+    foreach_binary_op<std::multiplies>(tensors, scalar);                                                  \
 }

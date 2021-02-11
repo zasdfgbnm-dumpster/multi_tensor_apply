@@ -14,7 +14,14 @@ struct Scalar {
 };
 
 struct Tensor {
-
+    int n;
+    float *data;
+    int numel() {
+        return n;
+    }
+    float *data_ptr() {
+        return data;
+    }
 };
 
 using TensorList = std::vector<Tensor>;
