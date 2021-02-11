@@ -1,14 +1,6 @@
 #include <ATen/native/ForeachUtils.h>
 #include <ATen/native/cuda/ForeachFunctors.cuh>
 
-class Scalar {
-    float value;
-    template<typename T>
-    T to() {
-        return (T)value;
-    }
-};
-
 template<template<class> class Op>
 std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
     std::vector<std::vector<at::Tensor>> tensor_lists;
