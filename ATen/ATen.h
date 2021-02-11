@@ -45,7 +45,7 @@ using ArrayRef = ::ArrayRef<T>;
 } // namespace at
 
 #define TORCH_CHECK(...)
-#define C10_CUDA_KERNEL_LAUNCH_CHECK(...)
+#define C10_CUDA_KERNEL_LAUNCH_CHECK() do { auto code = cudaGetLastError(); if(code != cudaSuccess) throw std::runtime_error(cudaGetErrorString(code)); } while(0)
 
 
 namespace at { namespace native {
