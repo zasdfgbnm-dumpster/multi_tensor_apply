@@ -3,6 +3,7 @@
 #include <c10/macros/Macros.h>
 #include <vector>
 #include <functional>
+#include <iostream>
 #include <cuda_runtime.h>
 
 struct Scalar {
@@ -93,3 +94,22 @@ Tensor empty_like(Tensor t) {
 }
 
 }}
+
+std::ostream &operator<<(std::ostream &os, Tensor t) {
+    using T = float;
+    int size = t.n;
+    T *data = t.data;
+    T *buf = new T[size];
+    int64_t size_ = size * sizeof(T);
+    cudaDeviceSynchronize();
+    C10_CUDA_KERNEL_LAUNCH_CHECK();
+    cudaMemcpy(buf, data, size_, cudaMemcpyDeviceToHost);
+    cudaDeviceSynchronize();
+    C10_CUDA_KERNEL_LAUNCH_CHECK();
+    for (int64_t i = 0; i < size; i++) {
+        os << buf[i] << ", ";
+    }
+    os << std::endl;
+    delete [] buf;
+    return os;
+}
