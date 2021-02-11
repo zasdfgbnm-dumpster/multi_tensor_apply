@@ -1,8 +1,5 @@
 #pragma once
-#include <ATen/ATen.h>
 
-namespace at {
-namespace native {
 namespace {
 
 void check_foreach_api_restrictions(TensorList tensors) {
@@ -214,4 +211,3 @@ bool can_use_fast_route(TensorList tensors1, TensorList tensors2, TensorList ten
 }
 
 }
-}} // at::native
