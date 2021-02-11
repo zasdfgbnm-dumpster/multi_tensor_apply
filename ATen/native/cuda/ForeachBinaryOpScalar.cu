@@ -12,7 +12,7 @@ std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
         vec_res.emplace_back(at::native::empty_like(t));
     }
 
-    tensor_lists.emplace_back(tensors.vec());
+    tensor_lists.emplace_back(tensors);
     tensor_lists.emplace_back(std::move(vec_res));
 
     using scalar_t = float;

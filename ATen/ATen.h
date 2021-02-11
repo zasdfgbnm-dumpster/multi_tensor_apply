@@ -36,4 +36,4 @@ using ArrayRef = ::ArrayRef<T>;
 } // namespace at
 
 #define TORCH_CHECK(...)
-#define C10_LAUNCH_BOUNDS_1(max_threads_per_block) __launch_bounds__((C10_MAX_THREADS_PER_BLOCK((max_threads_per_block))))
+#define C10_CUDA_KERNEL_LAUNCH_CHECK(...)

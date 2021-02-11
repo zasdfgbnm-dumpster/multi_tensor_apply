@@ -1,4 +1,5 @@
 #include <ATen/ATen.h>
+#include <ATen/native/cuda/MemoryAccess.cuh>
 
 namespace at { namespace native {
 
@@ -87,7 +88,7 @@ void multi_tensor_apply(
                 bool last_chunk = (t == n_tensors - 1 && chunk == chunks - 1);
 
                 if (tensors_full || blocks_full || last_chunk) {
-                    multi_tensor_apply_kernel<<<loc_block_info, kBlockSize, 0, at::cuda::getCurrentCUDAStream()>>>(
+                    multi_tensor_apply_kernel<<<loc_block_info, kBlockSize, 0>>>(
                         tensorListMeta,
                         callable,
                         args...);
@@ -142,7 +143,7 @@ void multi_tensor_apply(
                 bool last_chunk = (t == n_tensors - 1 && chunk == chunks - 1);
 
                 if (tensors_full || blocks_full || last_chunk) {
-                    multi_tensor_apply_kernel<<<loc_block_info, kBlockSize, 0, at::cuda::getCurrentCUDAStream()>>>(
+                    multi_tensor_apply_kernel<<<loc_block_info, kBlockSize, 0>>>(
                         tensorListMeta,
                         callable,
                         args...);
