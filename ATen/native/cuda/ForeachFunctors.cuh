@@ -1,5 +1,7 @@
 #include <ATen/native/cuda/MultiTensorApply.cuh>
 
+namespace at { namespace native {
+
 namespace {
 
 // For FP16 or BFloat16 inputs, ops should perform internal math in FP32.
@@ -414,3 +416,5 @@ struct PointwiseOpListFunctor {
 };
 
 } // namespace
+
+}} // at::native

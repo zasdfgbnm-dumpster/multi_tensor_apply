@@ -1,5 +1,8 @@
 #include <ATen/native/cuda/ForeachFunctors.cuh>
 
+using namespace at;
+using namespace at::native;
+
 template<template<class> class Op>
 std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
     std::vector<std::vector<at::Tensor>> tensor_lists;
