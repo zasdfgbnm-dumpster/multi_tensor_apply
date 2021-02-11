@@ -82,6 +82,22 @@ Tensor zeros(int size) {
     return Tensor {size, ret};
 }
 
+Tensor ones(int size) {
+    using T = float;
+    T *buf = new T[size];
+    for (int64_t i = 0; i < size; i++) {
+        buf[i] = 1;
+    }
+    T *ret;
+    int64_t size_ = size * sizeof(T);
+    cudaMalloc(&ret, size_);
+    cudaMemcpy(ret, buf, size_, cudaMemcpyHostToDevice);
+    cudaDeviceSynchronize();
+    delete [] buf;
+    // who cares about cudaFree :P LOL
+    return Tensor {size, ret};
+}
+
 Tensor empty_like(Tensor t) {
     using T = float;
     int size = t.n;

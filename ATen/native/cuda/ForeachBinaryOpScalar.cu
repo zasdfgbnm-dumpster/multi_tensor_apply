@@ -29,7 +29,7 @@ std::vector<Tensor> foreach_binary_op(TensorList tensors, Scalar scalar) {
 }
 
 int main() {
-    TensorList tensors = {at::native::zeros(1)};
+    TensorList tensors = {at::native::ones(3)};
     Scalar scalar = 10.0f;
     foreach_binary_op<std::multiplies>(tensors, scalar);
     std::cout << tensors[0] << std::endl;
